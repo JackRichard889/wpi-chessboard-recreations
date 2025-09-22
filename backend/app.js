@@ -1,8 +1,11 @@
 require("dotenv").config();
 const express = require("express");
 const app = express();
+var cors = require('cors')
 const {getEulerTourCoordinates} = require('./logic')
 const PORT = process.env.PORT || 8020;
+
+app.use(cors())
 
 app.get("/options/:id", (req, res) => {
     // The parameter is available on the request object as req.params.id.
