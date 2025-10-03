@@ -2,6 +2,7 @@
 	import '../app.css';
     import wpi from '$lib/assets/wpi.svg';
 	import favicon from '$lib/assets/favicon.svg';
+    import Chessboard from "$lib/chessboard/Chessboard.svelte";
 
 	let { children } = $props();
 </script>
@@ -16,5 +17,9 @@
         <h1 class="font-serif font-semibold text-primary-500 text-xl">Chessboard Recreations</h1>
     </div>
 
-    {@render children?.()}
+    <div class="grid grid-cols-4 bg-white border border-gray-200 rounded-lg shadow-md">
+        {@render children?.()}
+
+        <Chessboard></Chessboard>
+    </div>
 </div>
