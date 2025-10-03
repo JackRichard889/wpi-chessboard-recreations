@@ -1,4 +1,4 @@
-<script lang="ts">
+uler<script lang="ts">
     import {Stage, Layer, Rect, Circle, Line, Text} from 'svelte-konva';
     import {EulerTour} from "$lib";
     import {onMount} from "svelte";
@@ -73,8 +73,8 @@
 
 <div class="grid grid-cols-4 bg-white border border-gray-200 rounded-lg shadow-md">
     <div class="p-6">
-        <h2 class="font-bold mb-3 text-xl">Knight's Tour Magic Square</h2>
-        <p class="mb-1">Description of this tour option. We will fill this in later.</p>
+        <h2 class="font-bold mb-3 text-xl">Euler's Knight Tour</h2>
+        <p class="mb-1">The Swiss mathematician Leonhard Euler worked out this way of making a knight hop from square to square so that it visits every square just once before returning to its starting point.</p>
         <p class="mb-1">The description continues on this line too.</p>
         <p class="mb-1">We want this to be a large space that is descriptive and clear.</p>
     </div>
