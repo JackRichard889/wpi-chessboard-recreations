@@ -1,8 +1,9 @@
 <script lang="ts">
     import {Stage, Layer, Rect, Circle, Line, Text} from 'svelte-konva';
-    import {EulerTour} from "$lib";
     import {onMount} from "svelte";
     import Konva from "konva";
+
+    const { boardSize, coordinates }: { boardSize: number, coordinates: number[][] } = $props();
 
     // Frame time to complete one animation.
     let animationSpeed: number = $state(2000);
@@ -10,14 +11,14 @@
     let showNumbers: boolean = $state(true);
     let showPath: boolean = $state(true);
 
-    const boardSize = 8; // n x n board.
-    const tileSize = 64; // Size in pixels of each board tile.
+    let animation: Konva.Animation;
+    let containerSize: number = $state(0);
 
     // Initialize coordinates to world space.
-    const coordinates: number[][] = EulerTour;
-    const localCoordinates: number[][] = coordinates.map(x => x.map(pos => pos * tileSize + (tileSize / 2)));
+    let localCoordinates: number[][] = $derived(coordinates.map(x => x.map(pos => pos * tileSize + (tileSize / 2))));
 
-    let animation: Konva.Animation;
+    // Size in pixels of each board tile.
+    let tileSize = $derived(containerSize / 8);
 
     $effect(() => {
         if (isPlaying) {
@@ -29,14 +30,15 @@
 
     let coordinateIndex: number = $state(0);
     let knight: ReturnType<typeof Circle>;
-    let knightPath: number[] = $state([]);
+    let knightPosX: number = $state(0);
+    let knightPosY: number = $state(0);
 
     onMount(initAnimation);
 
     function initAnimation() {
         // Seed the knight path array with the starting position.
-        knightPath[0] = localCoordinates[0][0];
-        knightPath[1] = localCoordinates[0][1];
+        knightPosX = localCoordinates[0][0];
+        knightPosY = localCoordinates[0][1];
 
         // Create the knight movement and path animation.
         animation = new Konva.Animation(function(frame) {
@@ -50,8 +52,8 @@
             const y = coordinate[1] + ((next[1] - coordinate[1]) * delta);
             knight.node.position({ x, y });
 
-            knightPath[(coordinateIndex + 1) * 2] = x;
-            knightPath[(coordinateIndex + 1) * 2 + 1] = y;
+            knightPosX = x;
+            knightPosY = y;
         }, knight.node.getLayer());
 
         if (isPlaying) {
@@ -65,14 +67,13 @@
 
         coordinateIndex = 0;
         knight.node.position({ x: localCoordinates[0][0], y: localCoordinates[0][1] });
-        knightPath = [];
 
         initAnimation();
     }
 </script>
 
-<div class="bg-gray-100 col-span-3 flex items-start justify-between p-4">
-    <div class="shadow-md">
+<div class="bg-gray-100 col-span-3 grid grid-cols-5 gap-4 items-start justify-between p-4">
+    <div bind:clientWidth={containerSize} class="col-span-3 grow shadow-md">
         <Stage width={ tileSize * boardSize } height={ tileSize * boardSize }>
             <!-- Chessboard layer. -->
             <Layer>
@@ -90,7 +91,7 @@
             <!-- Knight path layer. -->
             <Layer>
                 {#if showPath }
-                    <Line points={ knightPath } stroke="#eb818a" lineCap="round"
+                    <Line points={ [...localCoordinates.slice(0, coordinateIndex + 1).flat(), knightPosX, knightPosY] } stroke="#eb818a" lineCap="round"
                           lineJoin="round" strokeWidth={5} />
                 {/if}
             </Layer>
@@ -120,7 +121,7 @@
         </Stage>
     </div>
 
-    <div class="bg-white min-w-86 p-6 rounded-lg shadow-md">
+    <div class="bg-white col-span-2 p-6 rounded-lg shadow-md">
         <div class="flex mb-3">
             <button type="button" title={isPlaying ? 'Pause' : 'Play'} aria-label={isPlaying ? 'Pause' : 'Play'} onclick={() => isPlaying = !isPlaying} class="{isPlaying ? 'bg-primary-700 hover:bg-primary-800' : 'bg-primary-500 hover:bg-primary-600'} text-white font-medium rounded-lg text-sm p-2 text-center inline-flex items-center me-2 cursor-pointer">
                 {#if isPlaying }

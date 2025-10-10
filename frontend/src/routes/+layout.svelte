@@ -3,6 +3,7 @@
     import wpi from '$lib/assets/wpi.svg';
 	import favicon from '$lib/assets/favicon.svg';
     import Chessboard from "$lib/chessboard/Chessboard.svelte";
+    import {EulerTour} from "$lib";
 
 	let { children } = $props();
 </script>
@@ -20,6 +21,6 @@
     <div class="grid grid-cols-4 bg-white border border-gray-200 rounded-lg shadow-md">
         {@render children?.()}
 
-        <Chessboard></Chessboard>
+        <Chessboard boardSize={8} coordinates={EulerTour}></Chessboard>
     </div>
 </div>
