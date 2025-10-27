@@ -18,7 +18,7 @@
     let localCoordinates: number[][] = $derived(coordinates.map(x => x.map(pos => pos * tileSize + (tileSize / 2))));
 
     // Size in pixels of each board tile.
-    let tileSize = $derived(containerSize / 8);
+    let tileSize = $derived(containerSize / boardSize);
 
     $effect(() => {
         if (isPlaying) {
