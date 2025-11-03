@@ -8,7 +8,7 @@ import Euler6x6Tour from '$lib/tours/Euler6x6Tour.svelte';
 import Knight7x7Tour from '$lib/tours/Knight7x7Tour.svelte';
 import Knight5x5Tour from '$lib/tours/Knight5x5Tour.svelte';
 
-interface Tour {
+export interface Tour {
 	id: number;
 	name: string;
 	component: Component;
@@ -52,17 +52,6 @@ export const Tours: Tour[] = [
 	},
 	{
 		id: 4,
-		name: "King's Magic Tour",
-		component: KingMagicTour,
-		path: [
-			15, 16, 17, 18, 28, 37, 26, 25, 34, 33, 22, 31, 41, 42, 43, 44, 54, 53, 52, 51, 61, 72, 63,
-			64, 75, 76, 67, 78, 88, 87, 86, 85, 84, 83, 82, 81, 71, 62, 73, 74, 65, 66, 77, 68, 58, 57,
-			56, 55, 45, 46, 47, 48, 38, 27, 36, 35, 24, 23, 32, 21, 11, 12, 13, 14
-		],
-		boardSize: 8
-	},
-	{
-		id: 5,
 		name: "Roget's Knight Tour 2",
 		component: RogetTour2,
 		path: [
@@ -71,6 +60,17 @@ export const Tours: Tour[] = [
 			43, 24, 32, 11, 23, 44, 25, 17, 38, 46, 27, 48, 36, 15, 34, 13, 21, 42
 		],
 		boardSize: 8
+	},
+	{
+		id: 5,
+		name: 'Knight Tour (7x7)',
+		component: Knight7x7Tour,
+		path: [
+			71, 52, 33, 14, 65, 46, 27, 32, 13, 64, 45, 26, 77, 51, 63, 44, 25, 76, 57, 31, 12, 24, 75,
+			56, 37, 11, 62, 43, 55, 36, 17, 61, 42, 23, 74, 16, 67, 41, 22, 73, 54, 35, 47, 21, 72, 53,
+			34, 15, 66
+		],
+		boardSize: 7
 	},
 	{
 		id: 6,
@@ -84,17 +84,6 @@ export const Tours: Tour[] = [
 	},
 	{
 		id: 7,
-		name: 'Knight Tour (7x7)',
-		component: Knight7x7Tour,
-		path: [
-			71, 52, 33, 14, 65, 46, 27, 32, 13, 64, 45, 26, 77, 51, 63, 44, 25, 76, 57, 31, 12, 24, 75,
-			56, 37, 11, 62, 43, 55, 36, 17, 61, 42, 23, 74, 16, 67, 41, 22, 73, 54, 35, 47, 21, 72, 53,
-			34, 15, 66
-		],
-		boardSize: 7
-	},
-	{
-		id: 8,
 		name: 'Knight Tour (5x5)',
 		component: Knight5x5Tour,
 		path: [
@@ -102,5 +91,16 @@ export const Tours: Tour[] = [
 			15, 41
 		],
 		boardSize: 5
-	}
+	},
+	{
+		id: 8,
+		name: "King's Magic Tour",
+		component: KingMagicTour,
+		path: [
+			15, 16, 17, 18, 28, 37, 26, 25, 34, 33, 22, 31, 41, 42, 43, 44, 54, 53, 52, 51, 61, 72, 63,
+			64, 75, 76, 67, 78, 88, 87, 86, 85, 84, 83, 82, 81, 71, 62, 73, 74, 65, 66, 77, 68, 58, 57,
+			56, 55, 45, 46, 47, 48, 38, 27, 36, 35, 24, 23, 32, 21, 11, 12, 13, 14
+		],
+		boardSize: 8
+	},
 ];

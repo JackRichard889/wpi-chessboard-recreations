@@ -2,8 +2,9 @@
     import {Stage, Layer, Rect, Circle, Line, Text} from 'svelte-konva';
     import {onMount} from "svelte";
     import Konva from "konva";
+    import type {Tour} from "$lib";
 
-    const { boardSize, coordinates }: { boardSize: number, coordinates: number[][] } = $props();
+    const { tour }: { tour: Tour } = $props();
 
     // Frame time to complete one animation.
     let animationSpeed: number = $state(2000);
@@ -14,11 +15,19 @@
     let animation: Konva.Animation;
     let containerSize: number = $state(0);
 
+    let TourComponent = $derived(tour.component);
+
+    let coordinates = $derived(tour.path.map(num => {
+        const x = Math.floor(num / 10);
+        const y = num - 10 * x;
+        return [y - 1, x - 1]; // 0-indexed
+    }));
+
     // Initialize coordinates to world space.
-    let localCoordinates: number[][] = $derived(coordinates.map(x => x.map(pos => pos * tileSize + (tileSize / 2))));
+    let localCoordinates = $derived(coordinates.map(x => x.map(pos => pos * tileSize + (tileSize / 2))));
 
     // Size in pixels of each board tile.
-    let tileSize = $derived(containerSize / boardSize);
+    let tileSize = $derived(containerSize / tour.boardSize);
 
     $effect(() => {
         if (isPlaying) {
@@ -74,12 +83,12 @@
 
 <div class="bg-gray-100 col-span-3 grid grid-cols-5 gap-4 items-start justify-between p-4">
     <div bind:clientWidth={containerSize} class="col-span-3 grow shadow-md">
-        <Stage width={ tileSize * boardSize } height={ tileSize * boardSize }>
+        <Stage width={ tileSize * tour.boardSize } height={ tileSize * tour.boardSize }>
             <!-- Chessboard layer. -->
             <Layer>
-                {#each {length: boardSize ** 2} as _, position}
-                    {@const xPosition = (position % boardSize) }
-                    {@const yPosition = (position / boardSize | 0) }
+                {#each {length: tour.boardSize ** 2} as _, position}
+                    {@const xPosition = (position % tour.boardSize) }
+                    {@const yPosition = (position / tour.boardSize | 0) }
                     {@const tileColor = (xPosition + yPosition) % 2 === 0 ? '#8f242e' : 'white' }
 
                     <Rect x={ xPosition * tileSize } y={ yPosition * tileSize }
@@ -99,9 +108,9 @@
             <!-- Knight path numbering layer. -->
             <Layer>
                 {#if showNumbers }
-                    {#each {length: boardSize ** 2} as _, position}
-                        {@const xPosition = (position % boardSize) }
-                        {@const yPosition = (position / boardSize | 0) }
+                    {#each {length: tour.boardSize ** 2} as _, position}
+                        {@const xPosition = (position % tour.boardSize) }
+                        {@const yPosition = (position / tour.boardSize | 0) }
                         {@const textColor = (xPosition + yPosition) % 2 === 0 ? 'white' : '#8f242e' }
                         {@const index = coordinates.findIndex(x => xPosition === x[0] && yPosition === x[1]) }
 
@@ -121,38 +130,44 @@
         </Stage>
     </div>
 
-    <div class="bg-white col-span-2 p-6 rounded-lg shadow-md">
-        <div class="flex mb-3">
-            <button type="button" title={isPlaying ? 'Pause' : 'Play'} aria-label={isPlaying ? 'Pause' : 'Play'} onclick={() => isPlaying = !isPlaying} class="{isPlaying ? 'bg-primary-700 hover:bg-primary-800' : 'bg-primary-500 hover:bg-primary-600'} text-white font-medium rounded-lg text-sm p-2 text-center inline-flex items-center me-2 cursor-pointer">
-                {#if isPlaying }
-                    <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                        <path fill-rule="evenodd" d="M8 5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2H8Zm7 0a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1Z" clip-rule="evenodd"/>
-                    </svg>
-                {:else}
-                    <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                        <path fill-rule="evenodd" d="M8.6 5.2A1 1 0 0 0 7 6v12a1 1 0 0 0 1.6.8l8-6a1 1 0 0 0 0-1.6l-8-6Z" clip-rule="evenodd"/>
-                    </svg>
-                {/if}
-            </button>
+    <div class="col-span-2 flex flex-col gap-5">
+        <div class="bg-white col-span-2 p-6 rounded-lg shadow-md">
+            <div class="flex mb-3">
+                <button type="button" title={isPlaying ? 'Pause' : 'Play'} aria-label={isPlaying ? 'Pause' : 'Play'} onclick={() => isPlaying = !isPlaying} class="{isPlaying ? 'bg-primary-700 hover:bg-primary-800' : 'bg-primary-500 hover:bg-primary-600'} text-white font-medium rounded-lg text-sm p-2 text-center inline-flex items-center me-2 cursor-pointer">
+                    {#if isPlaying }
+                        <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                            <path fill-rule="evenodd" d="M8 5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2H8Zm7 0a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1Z" clip-rule="evenodd"/>
+                        </svg>
+                    {:else}
+                        <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                            <path fill-rule="evenodd" d="M8.6 5.2A1 1 0 0 0 7 6v12a1 1 0 0 0 1.6.8l8-6a1 1 0 0 0 0-1.6l-8-6Z" clip-rule="evenodd"/>
+                        </svg>
+                    {/if}
+                </button>
 
-            <button type="button" title="Stop" aria-label="Stop" onclick={restartAnimation} class="text-white bg-gray-200 hover:bg-gray-300 font-medium rounded-lg text-sm p-2 text-center inline-flex items-center me-2 cursor-pointer">
-                <svg class="w-6 h-6 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M7 5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2H7Z"/>
-                </svg>
-            </button>
+                <button type="button" title="Stop" aria-label="Stop" onclick={restartAnimation} class="text-white bg-gray-200 hover:bg-gray-300 font-medium rounded-lg text-sm p-2 text-center inline-flex items-center me-2 cursor-pointer">
+                    <svg class="w-6 h-6 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M7 5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2H7Z"/>
+                    </svg>
+                </button>
+            </div>
+
+            <label for="animation-speed" class="block mb-1 text-sm font-semibold text-gray-900">Animation Speed</label>
+            <input id="animation-speed" type="range" bind:value={animationSpeed} min="250" max="3000" class="w-full h-2 accent-primary-500 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+
+            <div class="flex items-center mt-3">
+                <input id="show-numbers" type="checkbox" bind:checked={showNumbers} class="w-4 h-4 accent-primary-500 bg-gray-100 border-gray-300 rounded-sm cursor-pointer">
+                <label for="show-numbers" class="ms-2 text-sm font-semibold text-gray-900">Show Numbers?</label>
+            </div>
+
+            <div class="flex items-center mt-3">
+                <input id="show-path" type="checkbox" bind:checked={showPath} class="w-4 h-4 accent-primary-500 bg-gray-100 border-gray-300 rounded-sm cursor-pointer">
+                <label for="show-path" class="ms-2 text-sm font-semibold text-gray-900">Show Path?</label>
+            </div>
         </div>
 
-        <label for="animation-speed" class="block mb-1 text-sm font-semibold text-gray-900">Animation Speed</label>
-        <input id="animation-speed" type="range" bind:value={animationSpeed} min="250" max="3000" class="w-full h-2 accent-primary-500 bg-gray-200 rounded-lg appearance-none cursor-pointer">
-
-        <div class="flex items-center mt-3">
-            <input id="show-numbers" type="checkbox" bind:checked={showNumbers} class="w-4 h-4 accent-primary-500 bg-gray-100 border-gray-300 rounded-sm cursor-pointer">
-            <label for="show-numbers" class="ms-2 text-sm font-semibold text-gray-900">Show Numbers?</label>
-        </div>
-
-        <div class="flex items-center mt-3">
-            <input id="show-path" type="checkbox" bind:checked={showPath} class="w-4 h-4 accent-primary-500 bg-gray-100 border-gray-300 rounded-sm cursor-pointer">
-            <label for="show-path" class="ms-2 text-sm font-semibold text-gray-900">Show Path?</label>
+        <div class="bg-white p-6 rounded-lg shadow-md">
+            <TourComponent />
         </div>
     </div>
 </div>
