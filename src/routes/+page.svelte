@@ -1,9 +1,9 @@
 <script lang="ts">
-    import {Tours} from "$lib";
-    import Chessboard from "$lib/chessboard/Chessboard.svelte";
+	import { Tours, warnsdorffTour } from '$lib';
+	import Chessboard from "$lib/chessboard/Chessboard.svelte";
 
-    let tourId = $state(1);
-    let tour = $derived(Tours.find(x => x.id === tourId));
+	let tourId = $state(1);
+	let tour = $derived(tourId === 9 ? warnsdorffTour(10, 10, 0, 0) : Tours.find(x => x.id === tourId)!);
 </script>
 
 <main class="grid grid-cols-4 bg-white border border-gray-200 rounded-lg shadow-md">
@@ -13,6 +13,8 @@
         {#each Tours as option (option.id)}
             <button class="{tourId === option.id ? 'underline' : ''} cursor-pointer block mb-2 text-md text-white whitespace-nowrap hover:underline" onclick={() => tourId = option.id}>{option.name}</button>
         {/each}
+
+				<button class="{tourId === 9 ? 'underline' : ''} cursor-pointer block mb-2 text-md text-white whitespace-nowrap hover:underline" onclick={() => tourId = 9}>Warnsdorff's Tour</button>
     </nav>
 
     <Chessboard tour={tour}></Chessboard>

@@ -17,17 +17,11 @@
 
     let TourComponent = $derived(tour.component);
 
-    let coordinates = $derived(tour.path.map(num => {
-        const x = Math.floor(num / 10);
-        const y = num - 10 * x;
-        return [y - 1, x - 1]; // 0-indexed
-    }));
-
     // Initialize coordinates to world space.
-    let localCoordinates = $derived(coordinates.map(x => x.map(pos => pos * tileSize + (tileSize / 2))));
+    let localCoordinates = $derived(tour.path.map(x => x.map(pos => pos * tileSize + (tileSize / 2))));
 
     // Size in pixels of each board tile.
-    let tileSize = $derived(containerSize / tour.boardSize);
+    let tileSize = $derived(containerSize / Math.max(tour.boardSize.x, tour.boardSize.y));
 
     $effect(() => {
         if (isPlaying) {
@@ -83,12 +77,12 @@
 
 <div class="bg-gray-100 col-span-3 grid grid-cols-5 gap-4 items-start justify-between p-4">
     <div bind:clientWidth={containerSize} class="col-span-3 grow shadow-md">
-        <Stage width={ tileSize * tour.boardSize } height={ tileSize * tour.boardSize }>
+        <Stage width={ tileSize * tour.boardSize.x } height={ tileSize * tour.boardSize.y }>
             <!-- Chessboard layer. -->
             <Layer>
-                {#each {length: tour.boardSize ** 2} as _, position}
-                    {@const xPosition = (position % tour.boardSize) }
-                    {@const yPosition = (position / tour.boardSize | 0) }
+                {#each {length: tour.boardSize.x * tour.boardSize.y} as _, position}
+                    {@const xPosition = (position % tour.boardSize.x) }
+                    {@const yPosition = (position / tour.boardSize.y | 0) }
                     {@const tileColor = (xPosition + yPosition) % 2 === 0 ? '#8f242e' : 'white' }
 
                     <Rect x={ xPosition * tileSize } y={ yPosition * tileSize }
@@ -108,11 +102,11 @@
             <!-- Knight path numbering layer. -->
             <Layer>
                 {#if showNumbers }
-                    {#each {length: tour.boardSize ** 2} as _, position}
-                        {@const xPosition = (position % tour.boardSize) }
-                        {@const yPosition = (position / tour.boardSize | 0) }
+                    {#each {length: tour.boardSize.x * tour.boardSize.y} as _, position}
+                        {@const xPosition = (position % tour.boardSize.x) }
+                        {@const yPosition = (position / tour.boardSize.y | 0) }
                         {@const textColor = (xPosition + yPosition) % 2 === 0 ? 'white' : '#8f242e' }
-                        {@const index = coordinates.findIndex(x => xPosition === x[0] && yPosition === x[1]) }
+                        {@const index = tour.path.findIndex(x => xPosition === x[0] && yPosition === x[1]) }
 
                         {#if index <= coordinateIndex }
                             <Text text={ `${index + 1}` } x={ xPosition * tileSize } y={ yPosition * tileSize }
