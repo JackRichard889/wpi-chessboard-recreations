@@ -8,11 +8,14 @@ import Euler6x6Tour from '$lib/tours/Euler6x6Tour.svelte';
 import Knight7x7Tour from '$lib/tours/Knight7x7Tour.svelte';
 import Knight5x5Tour from '$lib/tours/Knight5x5Tour.svelte';
 import WarnsdorffTour from '$lib/tours/WarnsdorffTour.svelte';
+import KnightAsset from '$lib/images/knight.png';
+import KingAsset from '$lib/images/king.png';
 
 export interface Tour {
 	id: number;
 	name: string;
 	component: Component;
+	asset: string;
 	path: number[][];
 	boardSize: { x: number, y: number };
 }
@@ -22,6 +25,7 @@ export const Tours: Tour[] = [
 		id: 1,
 		name: "Euler's Knight Tour",
 		component: EulerKnightTour,
+		asset: KnightAsset,
 		path: [
 			[4, 0], [6, 1], [7, 3], [5, 2], [6, 4], [7, 6], [5, 7], [4, 5],
 			[3, 7], [1, 6], [0, 4], [2, 5], [1, 3], [0, 1], [2, 0], [3, 2],
@@ -38,6 +42,7 @@ export const Tours: Tour[] = [
 		id: 2,
 		name: "DeMoivre's Knight Tour",
 		component: DeMoivreTour,
+		asset: KnightAsset,
 		path: [
 			[7, 0], [6, 2], [7, 4], [6, 6], [4, 7], [2, 6], [0, 7], [1, 5],
 			[0, 3], [1, 1], [3, 0], [5, 1], [7, 2], [6, 4], [7, 6], [5, 7],
@@ -46,7 +51,7 @@ export const Tours: Tour[] = [
 			[1, 2], [0, 0], [2, 1], [4, 0], [6, 1], [4, 2], [5, 0], [7, 1],
 			[6, 3], [7, 5], [6, 7], [4, 6], [2, 7], [0, 6], [1, 4], [0, 2],
 			[1, 0], [3, 1], [2, 3], [3, 5], [5, 4], [3, 3], [2, 5], [4, 4],
-			[3, 2], [2, 4], [4, 5], [5, 3], [3, 4], [2, 2], [4, 3], [5, 5]
+			[3, 2], [2, 4], [4, 5], [5, 3], [3, 4], [2, 2], [4, 3], [5, 5],
 		],
 		boardSize: { x: 8, y: 8 }
 	},
@@ -54,6 +59,7 @@ export const Tours: Tour[] = [
 		id: 3,
 		name: "Roget's Knight Tour 1",
 		component: RogetTour1,
+		asset: KnightAsset,
 		path: [
 			[4, 3], [5, 1], [7, 0], [6, 2], [7, 4], [6, 6], [4, 7], [5, 5],
 			[3, 4], [2, 6], [0, 7], [1, 5], [0, 3], [1, 1], [3, 0], [2, 2],
@@ -70,6 +76,7 @@ export const Tours: Tour[] = [
 		id: 4,
 		name: "Roget's Knight Tour 2",
 		component: RogetTour2,
+		asset: KnightAsset,
 		path: [
 			[3, 4], [1, 5], [0, 7], [2, 6], [1, 4], [0, 6], [2, 7], [3, 5],
 			[4, 7], [6, 6], [7, 4], [5, 5], [6, 7], [7, 5], [5, 4], [4, 6],
@@ -86,6 +93,7 @@ export const Tours: Tour[] = [
 		id: 5,
 		name: 'Knight Tour (7x7)',
 		component: Knight7x7Tour,
+		asset: KnightAsset,
 		path: [
 			[0, 6], [1, 4], [2, 2], [3, 0], [4, 5], [5, 3], [6, 1],
 			[1, 2], [2, 0], [3, 5], [4, 3], [5, 1], [6, 6], [0, 4],
@@ -93,7 +101,7 @@ export const Tours: Tour[] = [
 			[3, 1], [4, 6], [5, 4], [6, 2], [0, 0], [1, 5], [2, 3],
 			[4, 4], [5, 2], [6, 0], [0, 5], [1, 3], [2, 1], [3, 6],
 			[5, 0], [6, 5], [0, 3], [1, 1], [2, 6], [3, 4], [4, 2],
-			[6, 3], [0, 1], [1, 6], [2, 4], [3, 2], [4, 0], [5, 5]
+			[6, 3], [0, 1], [1, 6], [2, 4], [3, 2], [4, 0], [5, 5],
 		],
 		boardSize: { x: 7, y: 7 }
 	},
@@ -101,6 +109,7 @@ export const Tours: Tour[] = [
 		id: 6,
 		name: "Euler's Knight Tour (6x6)",
 		component: Euler6x6Tour,
+		asset: KnightAsset,
 		path: [
 			[0, 5], [2, 4], [4, 5], [5, 3], [4, 1], [2, 0],
 			[0, 1], [2, 2], [0, 3], [1, 5], [3, 4], [5, 5],
@@ -115,6 +124,7 @@ export const Tours: Tour[] = [
 		id: 7,
 		name: 'Knight Tour (5x5)',
 		component: Knight5x5Tour,
+		asset: KnightAsset,
 		path: [
 			[0, 4], [1, 2], [2, 0], [3, 3], [4, 1],
 			[4, 2], [0, 0], [1, 3], [2, 1], [3, 4],
@@ -128,6 +138,7 @@ export const Tours: Tour[] = [
 		id: 8,
 		name: "King's Magic Tour",
 		component: KingMagicTour,
+		asset: KingAsset,
 		path: [
 			[4, 0], [5, 0], [6, 0], [7, 0], [7, 1], [6, 2], [5, 1], [4, 1],
 			[3, 2], [2, 2], [1, 1], [0, 2], [0, 3], [1, 3], [2, 3], [3, 3],
@@ -297,6 +308,7 @@ export function warnsdorffTour(dx: number, dy: number, start_x: number, start_y:
 		id: 9,
 		name: "Warnsdorff's Algorithm",
 		component: WarnsdorffTour,
+		asset: KnightAsset,
 		path: path,
 		boardSize: { x: dx, y: dy }
 	};
