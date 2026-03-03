@@ -8,8 +8,8 @@ import Euler6x6Tour from '$lib/tours/Euler6x6Tour.svelte';
 import Knight7x7Tour from '$lib/tours/Knight7x7Tour.svelte';
 import Knight5x5Tour from '$lib/tours/Knight5x5Tour.svelte';
 import WarnsdorffTour from '$lib/tours/WarnsdorffTour.svelte';
-import KnightAsset from '$lib/images/knight.png';
-import KingAsset from '$lib/images/king.png';
+import KnightAsset from '$lib/assets/knight.png';
+import KingAsset from '$lib/assets/king.png';
 
 export interface Tour {
 	id: number;
