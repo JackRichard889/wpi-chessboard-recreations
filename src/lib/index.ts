@@ -309,7 +309,7 @@ export function warnsdorffTour(dx: number, dy: number, start_x: number, start_y:
 
 	return {
 		id: 9,
-		name: "Warnsdorff's Algorithm",
+		name: "Warnsdorff's Tour",
 		component: WarnsdorffTour,
 		asset: KnightAsset,
 		path: path,

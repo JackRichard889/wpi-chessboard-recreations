@@ -1,4 +1,5 @@
 <script lang="ts">
+	import '../app.css';
 	import { type Tour, Tours } from '$lib';
 	import Chessboard from '$lib/canvas/Chessboard.svelte';
 	import KnightPath from '$lib/canvas/KnightPath.svelte';
@@ -26,62 +27,92 @@
 	});
 </script>
 
-<main class="grid grid-cols-4 rounded-lg border border-gray-200 bg-white shadow-md">
-	<nav class="z-10 rounded-l-lg bg-primary-500 p-6">
-		<h2 class="mb-3 text-xl font-bold text-white">Tour Options</h2>
+<div class="flex h-screen overflow-hidden bg-slate-50">
+	<aside class="flex w-56 shrink-0 flex-col bg-primary-700 shadow-lg">
+		<div class="border-b border-primary-600 px-5 py-5">
+			<img src="wpi.svg" alt="WPI logo" class="mb-3 h-8" />
+			<h1 class="text-base font-bold text-white">Knight's Tours</h1>
+			<p class="mt-0.5 text-xs text-primary-300">Interactive Visualizations</p>
+		</div>
 
-		{#each Tours as option (option.id)}
+		<nav class="flex-1 overflow-y-auto px-3 py-4">
+			<p class="mb-2 px-2 text-xs font-semibold tracking-wider text-primary-400 uppercase">
+				Historical Tours
+			</p>
+
+			{#each Tours as option (option.id)}
+				<button
+					class="{tourId === option.id
+						? 'bg-white/15 text-white'
+						: 'text-primary-200 hover:bg-white/10 hover:text-white'} cursor-pointer mb-0.5 block w-full rounded-lg px-3 py-2 text-left text-sm font-medium transition-colors duration-150"
+					onclick={() => (tourId = option.id)}>{option.name}</button
+				>
+			{/each}
+
+			<div class="my-3 border-t border-primary-600"></div>
+
+			<p class="mb-2 px-2 text-xs font-semibold tracking-wider text-primary-400 uppercase">
+				Interactive Tours
+			</p>
 			<button
-				class="{tourId === option.id
-					? 'underline'
-					: ''} text-md mb-2 block cursor-pointer whitespace-nowrap text-white hover:underline"
-				onclick={() => (tourId = option.id)}>{option.name}</button
+				class="{tourId === 9
+					? 'bg-white/15 text-white'
+					: 'text-primary-200 hover:bg-white/10 hover:text-white'} cursor-pointer mb-0.5 block w-full rounded-lg px-3 py-2 text-left text-sm font-medium transition-colors duration-150"
+				onclick={() => {
+					warnsdorff = undefined;
+					tourId = 9;
+				}}>Warnsdorff's Tour</button
 			>
-		{/each}
+		</nav>
+	</aside>
 
-		<button
-			class="{tourId === 9
-				? 'underline'
-				: ''} text-md mb-2 block cursor-pointer whitespace-nowrap text-white hover:underline"
-			onclick={() => {
-				warnsdorff = undefined;
-				tourId = 9;
-			}}>Warnsdorff's Tour</button
+	<div class="flex min-w-0 flex-1 flex-col">
+		<header
+			class="flex h-14 shrink-0 items-center border-b border-gray-200 bg-white px-6 shadow-sm"
 		>
-	</nav>
+			<h2 class="font-semibold text-gray-800">
+				{activeTour?.name ?? "Warnsdorff's Tour"}
+			</h2>
+		</header>
 
-	{#if tourId === 9 && !warnsdorff}
-		<Configuration oncomplete={(t) => (warnsdorff = t)}></Configuration>
-	{:else if activeTour}
-		<div class="col-span-3 grid grid-cols-5 items-start justify-between gap-4 bg-gray-100 p-4">
-			<Chessboard
-				class="col-span-3 grow shadow-md"
-				sizeX={activeTour.boardSize.x}
-				sizeY={activeTour.boardSize.y}
-			>
-				{#snippet layers(tileSize)}
-					<KnightPath
-						bind:this={knightPath}
-						tour={activeTour}
-						asset={activeTour.asset}
-						bind:isPlaying
-						{showNumbers}
-						{showPath}
+		<main class="flex-1 overflow-auto p-5">
+			{#if tourId === 9 && !warnsdorff}
+				<Configuration oncomplete={(t) => (warnsdorff = t)} />
+			{:else if activeTour}
+				<div class="grid grid-cols-5 items-start gap-5">
+					<Chessboard
+						class="col-span-3 overflow-hidden rounded-xl shadow-md"
 						sizeX={activeTour.boardSize.x}
 						sizeY={activeTour.boardSize.y}
-						{tileSize}
-					></KnightPath>
-				{/snippet}
-			</Chessboard>
+					>
+						{#snippet layers(tileSize)}
+							<KnightPath
+								bind:this={knightPath}
+								tour={activeTour}
+								asset={activeTour.asset}
+								bind:isPlaying
+								{showNumbers}
+								{showPath}
+								sizeX={activeTour.boardSize.x}
+								sizeY={activeTour.boardSize.y}
+								{tileSize}
+							/>
+						{/snippet}
+					</Chessboard>
 
-			<div class="col-span-2 flex flex-col gap-5">
-				<Controls bind:isPlaying bind:showNumbers bind:showPath onRestart={() => knightPath?.restart()}
-				></Controls>
-
-				<div class="rounded-lg bg-white p-6 shadow-md">
-					<TourComponent />
+					<div class="col-span-2 flex flex-col gap-4">
+						<Controls
+							bind:isPlaying
+							bind:showNumbers
+							bind:showPath
+							onRestart={() => knightPath?.restart()}
+						/>
+						<div class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
+							<TourComponent />
+						</div>
+					</div>
 				</div>
-			</div>
-		</div>
-	{/if}
-</main>
+			{/if}
+		</main>
+	</div>
+</div>
