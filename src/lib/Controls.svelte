@@ -1,10 +1,17 @@
 <script lang="ts">
+	interface Props {
+		isPlaying: boolean;
+		showNumbers: boolean;
+		showPath: boolean;
+		onRestart: () => void;
+	}
+
 	let {
 		isPlaying = $bindable(),
 		showNumbers = $bindable(),
 		showPath = $bindable(),
 		onRestart
-	} = $props();
+	}: Props = $props();
 </script>
 
 <div class="col-span-2 rounded-lg bg-white p-6 shadow-md">
@@ -57,7 +64,10 @@
 			type="button"
 			title="Stop"
 			aria-label="Stop"
-			onclick={onRestart}
+			onclick={() => {
+				isPlaying = false;
+				onRestart();
+			}}
 			class="me-2 inline-flex cursor-pointer items-center rounded-lg bg-gray-200 p-2 text-center text-sm font-medium text-white hover:bg-gray-300"
 		>
 			<svg

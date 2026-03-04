@@ -1,6 +1,16 @@
 <script lang="ts">
 	import { Layer, Rect, Stage } from 'svelte-konva';
-	let { sizeX, sizeY, layers, onTileClicked, ...props } = $props();
+	import type { Snippet } from 'svelte';
+	import type { HTMLAttributes } from 'svelte/elements';
+
+	interface Props extends HTMLAttributes<HTMLDivElement> {
+		sizeX: number;
+		sizeY: number;
+		layers: Snippet<[number]>;
+		onTileClicked?: (x: number, y: number) => void;
+	}
+
+	let { sizeX, sizeY, layers, onTileClicked, ...props }: Props = $props();
 
 	let containerSize: number = $state(0);
 	let tileSize = $derived(containerSize / Math.max(sizeX, sizeY));
@@ -20,7 +30,7 @@
 					width={tileSize}
 					height={tileSize}
 					fill={tileColor}
-					onclick={() => onTileClicked(xPosition, yPosition)}
+					onclick={() => onTileClicked?.(xPosition, yPosition)}
 				/>
 			{/each}
 		</Layer>

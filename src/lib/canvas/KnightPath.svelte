@@ -1,20 +1,63 @@
 <script lang="ts">
 	import { Layer, Line, Text } from 'svelte-konva';
-	import { onMount } from 'svelte';
+	import { onMount, onDestroy } from 'svelte';
 	import Konva from 'konva';
+	import type { Tour } from '$lib';
+	import Knight from '$lib/canvas/Knight.svelte';
 
-	const animationSpeed = 500;
+	const BASE_SPEED = 500;
+	const END_SPEED = 100;
 
-	let { isPlaying, showNumbers, showPath, sizeX, sizeY, tileSize } = $props();
+	interface Props {
+		isPlaying: boolean;
+		showNumbers: boolean;
+		showPath: boolean;
+		sizeX: number;
+		sizeY: number;
+		tileSize: number;
+		tour: Tour;
+		asset: string;
+	}
+
+	let {
+		isPlaying = $bindable(),
+		showNumbers,
+		showPath,
+		sizeX,
+		sizeY,
+		tileSize,
+		tour,
+		asset
+	}: Props = $props();
 
 	let animation: Konva.Animation;
+	let elapsedTime = 0;
 	let coordinateIndex: number = $state(0);
 	let knightPosX: number = $state(0);
 	let knightPosY: number = $state(0);
+	let knightOpacity: number = $state(1);
 
 	let localCoordinates = $derived(
 		tour.path.map((x) => x.map((pos) => pos * tileSize + tileSize / 2))
 	);
+
+	let cumTimes = $derived.by(() => {
+		const N = localCoordinates.length;
+		const r = Math.pow(END_SPEED / BASE_SPEED, 1 / Math.max(N - 1, 1));
+		const times = [0];
+		for (let i = 0; i < N; i++) {
+			times.push(times[i] + BASE_SPEED * Math.pow(r, i));
+		}
+		return times;
+	});
+
+	$effect(() => {
+		knightPosX = localCoordinates[0][0];
+		knightPosY = localCoordinates[0][1];
+		knightOpacity = 1;
+		elapsedTime = 0;
+		coordinateIndex = 0;
+	});
 
 	$effect(() => {
 		if (isPlaying) {
@@ -25,56 +68,62 @@
 	});
 
 	onMount(initAnimation);
+	onDestroy(() => animation?.stop());
 
 	function initAnimation() {
-		// Seed the knight path array with the starting position.
 		knightPosX = localCoordinates[0][0];
 		knightPosY = localCoordinates[0][1];
+		knightOpacity = 1;
 
-		// Create the knight movement and path animation.
 		animation = new Konva.Animation(function (frame) {
-			coordinateIndex = Math.trunc(frame!.time / animationSpeed);
+			elapsedTime += frame!.timeDiff;
+			const t = elapsedTime;
+			const N = localCoordinates.length;
+			const totalTime = cumTimes[N];
 
-			const coordinate = localCoordinates[Math.min(coordinateIndex, localCoordinates.length - 1)];
-			const next = localCoordinates[Math.min(coordinateIndex + 1, localCoordinates.length - 1)];
-			const delta = Math.min(((frame!.time % animationSpeed) / animationSpeed) * 2, 1.0);
+			while (coordinateIndex < N - 1 && cumTimes[coordinateIndex + 1] <= t) {
+				coordinateIndex++;
+			}
 
-			const x = coordinate[0] + (next[0] - coordinate[0]) * delta;
-			const y = coordinate[1] + (next[1] - coordinate[1]) * delta;
-			const opacity = Math.max(0, 1 - (frame!.time / animationSpeed - localCoordinates.length - 1));
+			if (t >= totalTime) {
+				const last = localCoordinates[N - 1];
+				knightPosX = last[0];
+				knightPosY = last[1];
+				knightOpacity = Math.max(0, 1 - (t - totalTime) / BASE_SPEED);
+			} else {
+				const stepStart = cumTimes[coordinateIndex];
+				const stepDuration = cumTimes[coordinateIndex + 1] - stepStart;
+				const delta = (t - stepStart) / stepDuration;
 
-			knight.node.position({ x, y });
-			knight.node.opacity(opacity);
-
-			knightPosX = x;
-			knightPosY = y;
-		}, knight.node.getLayer());
+				const coordinate = localCoordinates[coordinateIndex];
+				const next = localCoordinates[Math.min(coordinateIndex + 1, N - 1)];
+				knightPosX = coordinate[0] + (next[0] - coordinate[0]) * delta;
+				knightPosY = coordinate[1] + (next[1] - coordinate[1]) * delta;
+				knightOpacity = 1;
+			}
+		});
 
 		if (isPlaying) {
 			animation.start();
 		}
 	}
 
-	function restartAnimation() {
+	export function restart() {
 		animation.stop();
 		isPlaying = false;
 
+		elapsedTime = 0;
 		coordinateIndex = 0;
-		knight.node.position({ x: localCoordinates[0][0], y: localCoordinates[0][1] });
-		knight.node.opacity(1);
-
-		initAnimation();
+		knightPosX = localCoordinates[0][0];
+		knightPosY = localCoordinates[0][1];
+		knightOpacity = 1;
 	}
 </script>
 
 <Layer>
 	{#if showPath}
 		<Line
-			points={[
-							...localCoordinates.slice(0, coordinateIndex + 1).flat(),
-							knightPosX,
-							knightPosY
-						]}
+			points={[...localCoordinates.slice(0, coordinateIndex + 1).flat(), knightPosX, knightPosY]}
 			stroke="#eb818a"
 			lineCap="round"
 			lineJoin="round"
@@ -108,3 +157,5 @@
 		{/each}
 	{/if}
 </Layer>
+
+<Knight {asset} {tileSize} x={knightPosX} y={knightPosY} opacity={knightOpacity} />

@@ -1,3 +1,11 @@
-<h2 class="font-bold mb-3 text-xl">Roget's Knight Tour 2</h2>
-<p class="mb-1"></p>
-<p class="mb-1"></p>
+<h2 class="mb-3 text-xl font-bold">Roget's Knight Tour 2</h2>
+<p class="mb-1">
+	This is a second closed knight's tour constructed using Roget's quadrant method. By varying how
+	the four 4×4 sub-tours are joined, Roget's technique can generate multiple distinct tours, all
+	sharing the property of being re-entrant.
+</p>
+<p class="mb-1">
+	Like the first Roget tour, this path forms a continuous cycle: the knight visits all 64 squares
+	exactly once and can return to its starting square in one knight's move. The two tours trace
+	entirely different paths across the board despite arising from the same construction method.
+</p>

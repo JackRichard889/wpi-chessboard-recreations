@@ -153,7 +153,7 @@ export const Tours: Tour[] = [
 	}
 ];
 
-export function warnsdorffTour(dx: number, dy: number, start_x: number, start_y: number): Tour {
+export function warnsdorffTour(dx: number, dy: number, start_x: number, start_y: number): Tour | null {
 	// --- 1. Constants and Helpers ---
 
 	// All 8 possible knight moves
@@ -303,7 +303,10 @@ export function warnsdorffTour(dx: number, dy: number, start_x: number, start_y:
 		}
 	}
 
-	// Return the final result object
+	if (!success) {
+		return null;
+	}
+
 	return {
 		id: 9,
 		name: "Warnsdorff's Algorithm",
