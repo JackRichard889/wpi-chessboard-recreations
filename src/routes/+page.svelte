@@ -80,11 +80,12 @@
 				<Configuration oncomplete={(t) => (warnsdorff = t)} />
 			{:else if activeTour}
 				<div class="grid grid-cols-5 items-start gap-5">
-					<Chessboard
-						class="col-span-3 overflow-hidden rounded-xl shadow-md"
-						sizeX={activeTour.boardSize.x}
-						sizeY={activeTour.boardSize.y}
-					>
+					<div class="col-span-3 aspect-square max-h-[84vh] max-w-[84vh] overflow-hidden rounded-xl shadow-md">
+						<Chessboard
+							class="size-full"
+							sizeX={activeTour.boardSize.x}
+							sizeY={activeTour.boardSize.y}
+						>
 						{#snippet layers(tileSize)}
 							<KnightPath
 								bind:this={knightPath}
@@ -99,6 +100,7 @@
 							/>
 						{/snippet}
 					</Chessboard>
+					</div>
 
 					<div class="col-span-2 flex flex-col gap-4">
 						<Controls

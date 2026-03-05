@@ -37,7 +37,7 @@
 </script>
 
 <div class="grid grid-cols-5 items-start gap-5">
-	<div class="relative col-span-3 aspect-square max-h-[70vh] max-w-[70vh] overflow-hidden rounded-xl shadow-md">
+	<div class="relative col-span-3 aspect-square max-h-[84vh] max-w-[84vh] overflow-hidden rounded-xl shadow-md">
 		<Chessboard {sizeX} {sizeY} onTileClicked={onPositionChange}>
 			<!-- Show board size as overlay. -->
 			{#snippet layers(tileSize)}
