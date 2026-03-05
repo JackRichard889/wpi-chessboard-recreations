@@ -6,7 +6,6 @@ import KingMagicTour from '$lib/tours/KingMagicTour.svelte';
 import RogetTour2 from '$lib/tours/RogetTour2.svelte';
 import Euler6x6Tour from '$lib/tours/Euler6x6Tour.svelte';
 import Knight7x7Tour from '$lib/tours/Knight7x7Tour.svelte';
-import Knight5x5Tour from '$lib/tours/Knight5x5Tour.svelte';
 import WarnsdorffTour from '$lib/tours/WarnsdorffTour.svelte';
 import KnightAsset from '$lib/assets/knight.png';
 import KingAsset from '$lib/assets/king.png';
@@ -119,20 +118,6 @@ export const Tours: Tour[] = [
 			[1, 2], [0, 4], [2, 5], [4, 4], [3, 2], [1, 3]
 		],
 		boardSize: { x: 6, y: 6 }
-	},
-	{
-		id: 7,
-		name: 'Knight Tour (5x5)',
-		component: Knight5x5Tour,
-		asset: KnightAsset,
-		path: [
-			[0, 4], [1, 2], [2, 0], [3, 3], [4, 1],
-			[4, 2], [0, 0], [1, 3], [2, 1], [3, 4],
-			[3, 0], [4, 3], [0, 1], [1, 4], [2, 2],
-			[2, 3], [3, 1], [4, 4], [0, 2], [1, 0],
-			[1, 1], [2, 4], [3, 2], [4, 0], [0, 3]
-		],
-		boardSize: { x: 5, y: 5 }
 	},
 	{
 		id: 8,
