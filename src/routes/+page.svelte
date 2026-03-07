@@ -30,7 +30,7 @@
 <div class="flex h-screen overflow-hidden bg-slate-50">
 	<aside class="flex w-56 shrink-0 flex-col bg-primary-700 shadow-lg">
 		<div class="border-b border-primary-600 px-5 py-5">
-			<img src="wpi.svg" alt="WPI logo" class="mb-3 h-8" />
+			<img src="wpi.svg" alt="WPI logo" class="mb-3 h-8 opacity-90" />
 			<h1 class="text-base font-bold text-white">Knight's Tours</h1>
 			<p class="mt-0.5 text-xs text-primary-300">Interactive Visualizations</p>
 		</div>
@@ -64,6 +64,13 @@
 				}}>Warnsdorff's Tour</button
 			>
 		</nav>
+
+		<div class="border-t border-primary-600 px-5 py-5 mt-auto">
+			<p class="mb-2 text-xs text-primary-300">Credits</p>
+			<p class="text-xs text-white/80">This website was developed by Tri Nguyen and Jack Richard as part
+				of an Interactive Qualifying Project (IQP) carried out under the direction of Professor P.K. Aravind.<br><br>Comments
+				and feedback can be sent to <a class="underline" href="mailto:paravind@wpi.edu">paravind@wpi.edu</a>.</p>
+		</div>
 	</aside>
 
 	<div class="flex min-w-0 flex-1 flex-col">
