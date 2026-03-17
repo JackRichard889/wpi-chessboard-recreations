@@ -19,6 +19,7 @@
 	let knightPath: { restart: () => void } | undefined = $state();
 
 	let TourComponent = $derived(activeTour?.component);
+	let showCredits: boolean = $state(false);
 
 	$effect(() => {
 		if (activeTour) {
@@ -65,11 +66,11 @@
 			>
 		</nav>
 
-		<div class="border-t border-primary-600 px-5 py-5 mt-auto">
-			<p class="mb-2 text-xs text-primary-300">Credits</p>
-			<p class="text-xs text-white/80">This website was developed by Tri Nguyen and Jack Richard as part
-				of an Interactive Qualifying Project (IQP) carried out under the direction of Professor P.K. Aravind.<br><br>Comments
-				and feedback can be sent to <a class="underline" href="mailto:paravind@wpi.edu">paravind@wpi.edu</a>.</p>
+		<div class="border-t border-primary-600 px-5 py-4 mt-auto">
+			<button
+				onclick={() => (showCredits = true)}
+				class="text-xs text-primary-300 hover:text-white transition-colors duration-150 cursor-pointer"
+			>Credits</button>
 		</div>
 	</aside>
 
@@ -125,3 +126,33 @@
 		</main>
 	</div>
 </div>
+
+{#if showCredits}
+	<div
+		class="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+		onclick={() => (showCredits = false)}
+	>
+		<div
+			class="relative w-full max-w-md rounded-xl bg-white p-8 shadow-xl"
+			onclick={(e) => e.stopPropagation()}
+		>
+			<button
+				onclick={() => (showCredits = false)}
+				class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors cursor-pointer"
+				aria-label="Close"
+			>
+				<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+					<path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+				</svg>
+			</button>
+			<h2 class="mb-4 text-lg font-semibold text-gray-800">Credits</h2>
+			<p class="text-sm text-gray-600 leading-relaxed">
+				This website was developed by Tri Nguyen and Jack Richard as part of an Interactive Qualifying
+				Project (IQP) carried out under the direction of Professor P.K. Aravind.
+			</p>
+			<p class="mt-4 text-sm text-gray-600">
+				Comments and feedback can be sent to <a class="text-primary-700 underline hover:text-primary-900" href="mailto:paravind@wpi.edu">paravind@wpi.edu</a>.
+			</p>
+		</div>
+	</div>
+{/if}
