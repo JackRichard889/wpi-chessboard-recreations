@@ -1,7 +1,8 @@
 <h2 class="mb-3 text-xl font-bold">Knight Tour (7x7)</h2>
 <p class="mb-1">
 	The 7×7 board has an odd number of squares (49), so no closed (or rentrant) knight's tour
-	is possible because the knight occupies a color opposite to its initial one after an even number of hops. 
+	is possible because the knight jumps to a square of the opposite color at every step and cannot return to to its 
+    initial square after an even number of steps. 
     This is an open tour that visits all 49 squares exactly once. This tour also has a special feature: at times the knight 
     jumps off the board only to reenter it from the opposite edge to land on the proper square. 
 </p>
