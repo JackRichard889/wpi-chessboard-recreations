@@ -2,8 +2,7 @@
 <p class="mb-1">
 	H.C. Warnsdorff published his heuristic rule for finding knight's tours in 1823. The rule is
 	simple: at each step, move the knight to the square from which it has the smallest number of onward
-	moves. In other words, move it to the square with the smallest number of unvisited neighbours it can
-	get to in a single step. 
+	moves to an unvisited square. 
 </p>
 <p class="mb-1">
 	This greedy strategy works remarkably well in practice, typically producing a complete tour on the
