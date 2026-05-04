@@ -5,7 +5,7 @@
 	well.
 </p>
 <p class="mb-1">
-	Unlike many smaller-board tours, this is a closed (re-entrant) tour, the knight can jump from its
-	final square back to its starting square in a single knight's move, forming a continuous cycle
+	Unlike many smaller-board tours, this is a closed (re-entrant) tour because the knight can jump back from its
+	final square to its starting point, forming a continuous cycle
 	across all 36 squares.
 </p>
