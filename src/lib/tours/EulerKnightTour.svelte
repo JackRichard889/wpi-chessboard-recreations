@@ -16,5 +16,5 @@
 <p class="mb-1">
     The Hindu mathematician Nilakantha came up with solutions to the knight's tour problem 
  a little over half a century before Euler, but Euler's work was influential in sparking a great deal
-of later work on the problem.    
+of the later work on the problem.    
 </p>
