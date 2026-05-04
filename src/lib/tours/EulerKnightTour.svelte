@@ -10,7 +10,7 @@
 <p class="mb-1">
 	This tour has another remarkable property. If the squares are numbered in the order that the
 	knight visits them, the sum of the numbers in every row and every column of the square is the same
-    and equal to 260. A set of numbers that form a square with this property is known as a
+    and equal to 260. A set of numbers with this property is known as a
     "magic square" (although this term is sometimes restricted only to those squares
     for which the sums along the two diagonals also equal the sums along the rows and columns).
 <p class="mb-1">
