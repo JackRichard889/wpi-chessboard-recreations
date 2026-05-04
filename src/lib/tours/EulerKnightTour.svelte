@@ -11,10 +11,10 @@
 	This tour has another remarkable property. If the squares are numbered in the order that the
 	knight visits them, the sum of the numbers in every row and every column of the square is the same
     and equal to 260. A set of numbers with this property is known as a
-    "magic square" (although this term is sometimes restricted only to those squares
+    "magic square" (although the term is sometimes applied only to squares
     for which the sums along the two diagonals also equal the sums along the rows and columns).
 <p class="mb-1">
-    The Hindu mathematician Nilakantha came up with a number of remarkable solutions to the knight's tour problem 
- a little over half a century before Euler, but the modern study of the problem was initiated and greatly influenced
-by the work of Euler.    
+    The Hindu mathematician Nilakantha came up with solutions to the knight's tour problem 
+ a little over half a century before Euler, but Euler's work was influential in sparking a great deal
+of later work on the problem.    
 </p>
