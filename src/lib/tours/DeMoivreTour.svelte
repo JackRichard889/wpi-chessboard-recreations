@@ -7,6 +7,6 @@
 </p>
 <p class="mb-1">
 	His tour on the 8×8 board is an open tour in which the knight visits every square exactly once but cannot
-	return to its starting square at the end in a single move. It begins from a corner of the board,
-	weaving across all 64 squares before ending up close to another corner of the board.
+	return to its starting square at the end in a single move. It begins from a corner of the board and
+	weaves over all 64 squares before ending up close to another corner of the board.
 </p>
