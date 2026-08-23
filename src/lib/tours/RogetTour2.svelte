@@ -6,6 +6,6 @@
 </p>
 <p class="mb-1">
 	Like the first Roget tour, this path forms a continuous cycle: the knight visits all 64 squares
-	exactly once and can return to its starting square in one knight's move. The two tours trace
-	entirely different paths across the board despite arising from the same construction method.
+	exactly once and can jump back from the final square it visits to its starting point. The two tours trace
+	out entirely different paths over the board despite arising from the same method of construction.
 </p>
