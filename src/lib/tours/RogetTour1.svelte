@@ -6,6 +6,6 @@
 	quadrants, building a tour within each, and then linking them together.
 </p>
 <p class="mb-1">
-	This is a closed (re-entrant) tour: the knight can jump from its final square back to its
-	starting square, forming an unbroken cycle across all 64 squares of the board.
+	This is a closed (re-entrant) tour: the knight can jump back from the final square to its
+	starting point, forming an unbroken cycle across all 64 squares of the chessboard.
 </p>
