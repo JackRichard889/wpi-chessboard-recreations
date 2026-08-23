@@ -8,6 +8,6 @@
 	This greedy strategy works remarkably well in practice, typically producing a complete tour on the
 	first attempt across boards of any size. The algorithm here uses random tie-breaking when multiple
 	candidate squares share the same score, so each run may produce a different valid tour. Try
-	different board sizes and starting positions to explore the variety of tours Warnsdorff's rule can
-	produce.
+	different board sizes and starting positions to explore the variety of tours that Warnsdorff's rule can
+	generate.
 </p>
