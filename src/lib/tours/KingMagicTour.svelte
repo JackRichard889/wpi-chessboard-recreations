@@ -6,7 +6,7 @@
 	remarkable.
 </p>
 <p class="mb-1">
-	This particular king's tour is also a magic tour: if the squares are numbered in the order they
-	are visited, every row and column sums to 260, the same magic constant as for Euler's 8×8
+	This particular king's tour is both a Hamiltonian circuit and a "magic" tour: if the squares are numbered in the 
+    order they are visited, every row and column sums to 260, the same magic constant as for Euler's 8×8
 	knight's tour, and the expected value for any magic square of order 8.
 </p>
