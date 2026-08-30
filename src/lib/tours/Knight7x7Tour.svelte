@@ -4,9 +4,9 @@
     possible because the knight jumps to a square of the opposite color at every step and cannot return to  
     its original square after an odd number of steps. 
     This is an open tour that visits all 49 squares exactly once. However, to accomplish it, the knight must 
-    sometimes jump off an edge of the board and land back on the appropriate square  
-    before continuing with its tour (the appropriate square is the one the knight would land on if the 
-    opposite edges of the board were glued together, so that it became a torus). 
+    sometimes jump off an edge of the board and land back on an unvisited square before going on with its tour.   
+    In this case, the square it chooses is the one of the empty ones available to it if the opposite edges of 
+    the board glued together, so that it became a torus. 
 </p>
 <p class="mb-1">
 	This knight's tour is also a magic tour. If the squares are numbered in the order they are
