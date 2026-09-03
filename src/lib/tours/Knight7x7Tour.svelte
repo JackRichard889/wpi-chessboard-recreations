@@ -6,7 +6,7 @@
     This is an open tour that visits all 49 squares exactly once. However, to accomplish it, the knight must 
     sometimes jump off an edge of the board and back on to an unvisited square before going on with its tour.   
     In this case, the square it lands back on is the one of the empty ones available to it if the opposite edges of 
-    the board glued together, so that it became a torus. 
+    the board are glued together, so that it became a torus. 
 </p>
 <p class="mb-1">
 	This knight's tour is also a magic tour. If the squares are numbered in the order they are
